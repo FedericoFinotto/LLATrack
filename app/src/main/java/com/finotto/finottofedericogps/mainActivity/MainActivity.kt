@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity() {
         val viewModelFactory = MainActivityViewModelFactory(db)
         viewModel = ViewModelProvider(this,viewModelFactory).get(MainActivityViewModel::class.java)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment?
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navigation_container) as NavHostFragment?
         if (navHostFragment != null) {
             val navController = navHostFragment.navController
-            val bottomNavigationView : BottomNavigationView = findViewById(R.id.nav_view)
+            val bottomNavigationView : BottomNavigationView = findViewById(R.id.navBar)
             bottomNavigationView.setupWithNavController(navController)
         }
 
