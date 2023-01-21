@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">LLA Track</string>
+    <string name="title_home">Misurazioni</string>
+    <string name="title_graph">Grafici</string>
+    <string name="text_Latitude">Latitudine</string>
+    <string name="text_Longitude">Longitudine</string>
+    <string name="text_Altitude">Altitudine</string>
+    <string name="text_noData">Nessun Dato</string>
+    <string name="text_PermRequest">To Mama</string>
+    <string name="notifica_titolo">Tracciamento in Corso</string>
+    <string name="notifica_descrizione">L\'app sta registrando Latitudine, Longitudine e Altitudine</string>
+    <string name="CanaleNotifica_descrizione">Notifica l\'esecuzione in Background</string>
+    <string name="CanaleNotifica_nome">LLA Finotto</string>
+</resources>
