@@ -1,4 +1,4 @@
-package com.finotto.finottofedericogps.GPS
+package com.finotto.finottofedericogps.gps
 
 import android.Manifest
 import android.app.*
@@ -45,12 +45,11 @@ class ServiceGPS : Service(){
         db.resettaDatabase() //Quando avvio il servizio mi assicuro che non ci siano residui degli avvii precedenti
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         mLocationRequest = LocationRequest.create()
-        startLocationUpdates()
+        avviaLocalizzazione()
     }
 
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            //locationResult.lastLocation
             Log.d(LOG_TAG, "mLocationCallback: $latitude $longitude $altitude")
             locationChanged(locationResult.lastLocation)
             latitude = locationResult.lastLocation.latitude
@@ -61,14 +60,13 @@ class ServiceGPS : Service(){
     }
 
     fun locationChanged(location: Location) {
-        //mLastLocation = location
         longitude = location.longitude
         latitude = location.latitude
         altitude = location.altitude
         Log.d(LOG_TAG, "locationChanged: $latitude $longitude $altitude")
     }
 
-    private fun startLocationUpdates() {
+    private fun avviaLocalizzazione() {
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.interval = MS_REFRESH
         mLocationRequest.fastestInterval = MS_REFRESH
@@ -86,27 +84,18 @@ class ServiceGPS : Service(){
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return
         }
-        fusedLocationProviderClient!!.requestLocationUpdates(
-            mLocationRequest,
-            mLocationCallback,
-            Looper.myLooper()!!)
+        fusedLocationProviderClient!!.requestLocationUpdates( mLocationRequest, mLocationCallback, Looper.myLooper()!!)
     }
 
-    /**
-     * onStartCommand funge da interfaccia di controllo per il servizio.
-     * Il servizio può essere in esecuzione normale o in esecuzione foreground.
-     * onStartCommand riconosce due azioni che permettono di mettere il servizio in una delle due
-     * modalità di esecuzione.
-     */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(LOG_TAG, "onStartCommand => Servizio Avviato")
 
         intent?.let {
             when (it.action) {
                 ACTION_START -> {
-                    stopForeground(false);
+                    stopForeground(false)
                     Log.d(LOG_TAG, "onStartCommand => Servizio Avviato con Activity")
-                    startLocationUpdates()
+                    avviaLocalizzazione()
                 } // Metto il servizio in esecuzione normale (non foreground).
                 ACTION_RUN_IN_BACKGROUND -> {
                     //Configuro un Intent necessario per Permettere la riapertura dell'app premendo la Notifica
@@ -124,16 +113,16 @@ class ServiceGPS : Service(){
 
                     val iconBitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_launcher_foreground)
                     // Inserisco le Informazioni della notifica
-                    val notification =
-                        NotificationCompat.Builder(this, MainActivity.ID_NOTIF_CH_MAIN)
-                            .setSmallIcon(R.drawable.ic_launcher_foreground)
-                            .setLargeIcon(iconBitmap)
-                            .setContentTitle(getString(R.string.notifica_titolo))
-                            .setContentText(getString(R.string.notifica_descrizione))
-                            .setContentIntent(pendingIntent)
-                            .build()
+                    val notification = NotificationCompat.Builder(this, MainActivity.ID_NOTIF_CH_MAIN)
+                                        .setContentTitle(getString(R.string.notifica_titolo))
+                                        .setContentText(getString(R.string.notifica_descrizione))
+                                        .setSmallIcon(R.drawable.ic_launcher_foreground)
+                                        .setLargeIcon(iconBitmap)
+                                        .setContentIntent(pendingIntent)
+                                        .build()
                     startForeground(MainActivity.ID_NOTIF_READING, notification)
                     Log.d(LOG_TAG, "onStartCommand => Servizio Avviato in Background")
+                    avviaLocalizzazione()
                 }
                 else -> { }
             }

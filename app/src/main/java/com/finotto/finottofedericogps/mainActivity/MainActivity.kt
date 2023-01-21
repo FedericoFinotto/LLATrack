@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.finotto.finottofedericogps.database.*
-import com.finotto.finottofedericogps.GPS.*
+import com.finotto.finottofedericogps.gps.*
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build

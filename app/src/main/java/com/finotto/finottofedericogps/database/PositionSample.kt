@@ -4,9 +4,6 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
-/**
- * Classe che memorizza i dati di un campionamento.
- */
 @Parcelize
 data class PositionSample(
         val altitudine: Double,
