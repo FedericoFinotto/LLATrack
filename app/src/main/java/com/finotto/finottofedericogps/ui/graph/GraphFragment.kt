@@ -35,10 +35,9 @@ class GraphFragment : Fragment() {
         repo = (requireActivity().application as DatabaseApplication).database
         inflatedView = inflater.inflate(R.layout.fragment_graph, container, false)
 
-        grafico_Long = inflatedView.findViewById(R.id.graficoAltitudine)
-        grafico_Lat = inflatedView.findViewById(R.id.graficoLongitudine)
-        grafico_Alt = inflatedView.findViewById(R.id.graficoLatitudine)
-
+        grafico_Lat = inflatedView.findViewById(R.id.graficoLatitudine)
+        grafico_Long = inflatedView.findViewById(R.id.graficoLongitudine)
+        grafico_Alt = inflatedView.findViewById(R.id.graficoAltitudine)
 
         inizializzaGrafico(grafico_Alt)
         inizializzaGrafico(grafico_Long)
@@ -50,21 +49,21 @@ class GraphFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var listaValori = repo.listSample;
+        val listaValori = repo.listSample
         valoriAltitudine.clear()
         valoriLongitudine.clear()
         valoriLatitudine.clear()
 
 
         for((index, location) in listaValori.reversed().withIndex()){
-            valoriAltitudine.add(Entry(index.toFloat() + 1, location.latitudine.toFloat()))
-            valoriLatitudine.add(Entry(index.toFloat() + 1, location.longitudine.toFloat()))
-            valoriLongitudine.add(Entry(index.toFloat() + 1, location.altitudine.toFloat()))
+            valoriAltitudine.add(Entry(index.toFloat() + 1, location.altitudine.toFloat()))
+            valoriLatitudine.add(Entry(index.toFloat() + 1, location.latitudine.toFloat()))
+            valoriLongitudine.add(Entry(index.toFloat() + 1, location.longitudine.toFloat()))
         }
 
-        aggiornaGrafico(grafico_Lat, valoriAltitudine, "Latitudine", Color.RED)
-        aggiornaGrafico(grafico_Long, valoriLatitudine, "Longitudine", Color.GREEN)
-        aggiornaGrafico(grafico_Alt, valoriLongitudine, "Altitudine", Color.BLUE)
+        aggiornaGrafico(grafico_Lat, valoriLatitudine, getString(R.string.text_Latitude), Color.RED)
+        aggiornaGrafico(grafico_Long, valoriLongitudine, getString(R.string.text_Longitude), Color.GREEN)
+        aggiornaGrafico(grafico_Alt, valoriAltitudine, getString(R.string.text_Altitude), Color.BLUE)
     }
 
     private fun definisciLineeDataSet(listaValori : ArrayList<Entry>, titolo : String, colore : Int) : LineDataSet{
@@ -96,14 +95,17 @@ class GraphFragment : Fragment() {
     }
 
     private fun inizializzaGrafico(chart : LineChart){
-
         chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         chart.xAxis.typeface = Typeface.DEFAULT_BOLD
         chart.xAxis.textColor = Color.WHITE
+        chart.xAxis.granularity = 1f
+        chart.xAxis.isGranularityEnabled = true
 
-        // Y axis settings
+
+
         chart.axisLeft.textColor = Color.WHITE
         chart.axisRight.isEnabled = false
+        chart.axisLeft.minWidth = 55.toFloat()
         chart.legend.textColor = Color.WHITE
         chart.legend.textSize = 20f
         chart.setNoDataText("Nessun Dato")

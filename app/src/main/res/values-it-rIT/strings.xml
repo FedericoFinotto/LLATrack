@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_home">Misurazioni</string>
+    <string name="title_graph">Grafici</string>
+    <string name="text_Latitude">Latitudine</string>
+    <string name="text_Longitude">Longitudine</string>
+    <string name="text_Altitude">Altitudine</string>
+    <string name="text_noData">Nessun Dato</string>
+    <string name="notifica_titolo">Tracciamento in Background</string>
+    <string name="notifica_descrizione">L\'app sta registrando Latitudine, Longitudine e Altitudine</string>
+    <string name="CanaleNotifica_descrizione">Notifica l\'esecuzione in Background</string>
+</resources>
