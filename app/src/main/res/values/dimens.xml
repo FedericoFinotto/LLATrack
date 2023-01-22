@@ -9,5 +9,5 @@
     <dimen name="distanza_dati_portrait">100dp</dimen>
     <dimen name="distanza_dati_landscape">50dp</dimen>
     <dimen name="margine_grafici_landscape">100dp</dimen>
-
+    <dimen name="actionBar_dimens">30dp</dimen>
 </resources>

@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         if (!isChangingConfigurations) {
             avviaServizio(true)
         }
+
     }
 }
 

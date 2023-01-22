@@ -113,7 +113,7 @@ class ServiceGPS : Service(){
                                         .build()
                     startForeground(MainActivity.ID_NOTIF_READING, notification)
                     Log.d(LOG_TAG, "onStartCommand => Servizio Avviato in Background")
-                    //avviaLocalizzazione()
+                    avviaLocalizzazione()
                 }
                 else -> { }
             }
