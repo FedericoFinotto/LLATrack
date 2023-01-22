@@ -10,4 +10,8 @@
     <string name="notifica_titolo">Background Tracking</string>
     <string name="notifica_descrizione">App is tracking Latitude, Longitude and Altitude</string>
     <string name="CanaleNotifica_descrizione">Notifies the background Tracking</string>
+    <string name="icon_latitude">icon_Latitude</string>
+    <string name="icon_longitude">icon_Longitude</string>
+    <string name="icon_altitude">icon_Altitude</string>
+    <string name="numericFormat" translatable="false">%.5f</string>
 </resources>

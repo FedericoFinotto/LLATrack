@@ -22,57 +22,49 @@ class ServiceGPS : Service(){
 
     companion object {
         //Identificatori dello stato del Servizio
-        const val ACTION_START = "start" //Quando l'applicazione é aperta
-        const val ACTION_RUN_IN_BACKGROUND = "background" //Quando l'applicazione rimane in Background
+        const val STATO_FOREGROUND = "foreground" //Quando l'applicazione é aperta
+        const val STATO_BACKGROUND = "background" //Quando l'applicazione rimane in Background
         const val LOG_TAG = "ServiceGPS"
         const val MS_REFRESH : Long = 1000
     }
 
     private lateinit var db: Database //Contiene l'istanza del Database a cui fanno accesso Activity,Fragment e Service
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
-    private var longitude: Double = 0.0
-    private var latitude: Double = 0.0
-    private var altitude: Double = 0.0
-    private lateinit var mLocationRequest: LocationRequest
+    private lateinit var richiestaAggiornamento: LocationRequest
+    private var longitudine: Double = 0.0
+    private var latitudine: Double = 0.0
+    private var altitudine: Double = 0.0
 
-     /**
-     Funzione Chiamata all'avvio del Servizio, la utilizzo per predisporre l'accesso al servizio di Localizzazione
-     */
     override fun onCreate() {
         super.onCreate()
-        Log.d(LOG_TAG, "on create")
+        Log.d(LOG_TAG, "onCreate")
         db = (application as DatabaseApplication).database
         db.resettaDatabase() //Quando avvio il servizio mi assicuro che non ci siano residui degli avvii precedenti
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        mLocationRequest = LocationRequest.create()
+        richiestaAggiornamento = LocationRequest.create()
         avviaLocalizzazione()
     }
 
-    private val mLocationCallback = object : LocationCallback() {
+    private val rispostaAggiornamento = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            Log.d(LOG_TAG, "mLocationCallback: $latitude $longitude $altitude")
-            locationChanged(locationResult.lastLocation)
-            latitude = locationResult.lastLocation.latitude
-            longitude = locationResult.lastLocation.longitude
-            altitude = locationResult.lastLocation.altitude
-            db.aggiungiAlDatabase(PositionSample(altitude,longitude,latitude, Date()))
+            Log.d(LOG_TAG, "rispostaAggiornamento: $latitudine $longitudine $altitudine")
+            latitudine = locationResult.lastLocation.latitude
+            longitudine = locationResult.lastLocation.longitude
+            altitudine = locationResult.lastLocation.altitude
+            db.aggiungiAlDatabase(PositionSample(altitudine,longitudine,latitudine, Date()))
         }
     }
 
-    fun locationChanged(location: Location) {
-        longitude = location.longitude
-        latitude = location.latitude
-        altitude = location.altitude
-        Log.d(LOG_TAG, "locationChanged: $latitude $longitude $altitude")
-    }
-
     private fun avviaLocalizzazione() {
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        mLocationRequest.interval = MS_REFRESH
-        mLocationRequest.fastestInterval = MS_REFRESH
+        Log.d(LOG_TAG, "avviaLocalizzazione")
+        richiestaAggiornamento.apply{
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = MS_REFRESH
+            fastestInterval = MS_REFRESH
+        }
 
         val builder = LocationSettingsRequest.Builder()
-        builder.addLocationRequest(mLocationRequest)
+        builder.addLocationRequest(richiestaAggiornamento)
         val locationSettingsRequest = builder.build()
         val settingsClient = LocationServices.getSettingsClient(this)
         settingsClient.checkLocationSettings(locationSettingsRequest)
@@ -84,20 +76,20 @@ class ServiceGPS : Service(){
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return
         }
-        fusedLocationProviderClient!!.requestLocationUpdates( mLocationRequest, mLocationCallback, Looper.myLooper()!!)
+        fusedLocationProviderClient!!.requestLocationUpdates( richiestaAggiornamento, rispostaAggiornamento, Looper.myLooper()!!)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d(LOG_TAG, "onStartCommand => Servizio Avviato")
+        Log.d(LOG_TAG, "onStartCommand")
 
         intent?.let {
             when (it.action) {
-                ACTION_START -> {
+                STATO_FOREGROUND -> {
                     stopForeground(false)
-                    Log.d(LOG_TAG, "onStartCommand => Servizio Avviato con Activity")
+                    Log.d(LOG_TAG, "onStartCommand => Servizio Avviato in Foreground")
                     avviaLocalizzazione()
                 } // Metto il servizio in esecuzione normale (non foreground).
-                ACTION_RUN_IN_BACKGROUND -> {
+                STATO_BACKGROUND -> {
                     //Configuro un Intent necessario per Permettere la riapertura dell'app premendo la Notifica
                     val intentApriApp = Intent(this, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -122,7 +114,7 @@ class ServiceGPS : Service(){
                                         .build()
                     startForeground(MainActivity.ID_NOTIF_READING, notification)
                     Log.d(LOG_TAG, "onStartCommand => Servizio Avviato in Background")
-                    avviaLocalizzazione()
+                    //avviaLocalizzazione()
                 }
                 else -> { }
             }
@@ -133,7 +125,7 @@ class ServiceGPS : Service(){
     override fun onDestroy() {
         super.onDestroy()
         Log.d(LOG_TAG, "onDestroy")
-        fusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
+        fusedLocationProviderClient?.removeLocationUpdates(rispostaAggiornamento)
     }
 
     override fun onBind(intent: Intent?): IBinder? {

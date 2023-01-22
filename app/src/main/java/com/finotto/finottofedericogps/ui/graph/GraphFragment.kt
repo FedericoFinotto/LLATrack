@@ -22,7 +22,7 @@ class GraphFragment : Fragment() {
     private lateinit var grafico_Lat : LineChart
     private lateinit var grafico_Long : LineChart
     private lateinit var grafico_Alt : LineChart
-    private lateinit var repo: Database
+    private lateinit var db: Database
 
     private val valoriLatitudine = arrayListOf<Entry>()
     private val valoriLongitudine = arrayListOf<Entry>()
@@ -32,7 +32,7 @@ class GraphFragment : Fragment() {
         inflater : LayoutInflater, container : ViewGroup?,
         savedInstanceState : Bundle?
     ) : View {
-        repo = (requireActivity().application as DatabaseApplication).database
+        db = (requireActivity().application as DatabaseApplication).database
         inflatedView = inflater.inflate(R.layout.fragment_graph, container, false)
 
         grafico_Lat = inflatedView.findViewById(R.id.graficoLatitudine)
@@ -49,7 +49,7 @@ class GraphFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val listaValori = repo.listSample
+        val listaValori = db.listSample
         valoriAltitudine.clear()
         valoriLongitudine.clear()
         valoriLatitudine.clear()
@@ -100,9 +100,6 @@ class GraphFragment : Fragment() {
         chart.xAxis.textColor = Color.WHITE
         chart.xAxis.granularity = 1f
         chart.xAxis.isGranularityEnabled = true
-
-
-
         chart.axisLeft.textColor = Color.WHITE
         chart.axisRight.isEnabled = false
         chart.axisLeft.minWidth = 55.toFloat()

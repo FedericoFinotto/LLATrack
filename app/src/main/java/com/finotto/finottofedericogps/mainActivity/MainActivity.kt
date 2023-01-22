@@ -53,10 +53,10 @@ class MainActivity : AppCompatActivity() {
         val intent = when(background){
             true -> Intent()
                 .setClass(this, ServiceGPS::class.java)
-                .setAction(ServiceGPS.ACTION_RUN_IN_BACKGROUND)
+                .setAction(ServiceGPS.STATO_BACKGROUND)
             false -> Intent()
                 .setClass(this, ServiceGPS::class.java)
-                .setAction(ServiceGPS.ACTION_START)
+                .setAction(ServiceGPS.STATO_FOREGROUND)
         }
         startService(intent)
     }

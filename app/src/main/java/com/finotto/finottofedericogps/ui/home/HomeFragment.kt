@@ -1,9 +1,11 @@
 package com.finotto.finottofedericogps.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.finotto.finottofedericogps.R
 import androidx.fragment.app.Fragment
@@ -23,11 +25,7 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
 
 
-    override fun onCreateView( inflater: LayoutInflater,
-                               container: ViewGroup?,
-                               savedInstanceState: Bundle?
-                             ): View {
-
+    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
         db = (requireActivity().application as DatabaseApplication).database
         val viewModelFactory = HomeViewModelFactory(db)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
@@ -36,6 +34,7 @@ class HomeFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,24 +52,22 @@ class HomeFragment : Fragment() {
         stampaAttuale()
 
         viewModel.latitude.observe(viewLifecycleOwner) { value ->
-            latitudeValue.text = "%.7f".format(value)
+            latitudeValue.text = getString(R.string.numericFormat).format(value)
         }
         viewModel.longitude.observe(viewLifecycleOwner) { value ->
-            longitudeValue.text = "%.7f".format(value)
+            longitudeValue.text = getString(R.string.numericFormat).format(value)
         }
         viewModel.altitude.observe(viewLifecycleOwner) { value ->
-            altitudeValue.text = "%.7f".format(value)
+            altitudeValue.text = getString(R.string.numericFormat).format(value)
         }
 
     }
 
     private fun stampaAttuale(){
-        val attuale : PositionSample? = db.posizioneAttuale;
-        if(attuale!=null) {
-            latitudeValue.text = "%.7f".format(attuale.latitudine);
-            longitudeValue.text = "%.7f".format(attuale.longitudine);
-            altitudeValue.text = "%.7f".format(attuale.altitudine);
-        }
+        val attuale : PositionSample = db.posizioneAttuale
+        latitudeValue.text = getString(R.string.numericFormat).format(attuale.latitudine)
+        longitudeValue.text = getString(R.string.numericFormat).format(attuale.longitudine)
+        altitudeValue.text = getString(R.string.numericFormat).format(attuale.altitudine)
     }
 
     override fun onResume() {
