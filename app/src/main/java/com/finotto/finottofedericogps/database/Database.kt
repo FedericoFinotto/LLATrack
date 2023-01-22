@@ -7,7 +7,7 @@ import java.util.*
 
 class Database(private val context: Context) {
     companion object {
-        const val NUM_MAX_DATI = 150
+        const val NUM_MAX_DATI = 300
         const val LOG_TAG = "Database"
     }
 
@@ -49,7 +49,6 @@ class Database(private val context: Context) {
     }
 
     fun aggiungiAlDatabase(sample: PositionSample) {
-
         // Se lo storico ha raggiunto la dimensione massima rimuovo i campioni più vecchi in eccesso.
         while (pListaValori.size >= NUM_MAX_DATI) pListaValori.removeLast()
         pListaValori.add(0, sample)

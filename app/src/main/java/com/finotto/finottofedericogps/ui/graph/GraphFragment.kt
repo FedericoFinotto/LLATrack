@@ -8,6 +8,8 @@ import com.finotto.finottofedericogps.R
 import java.util.*
 import android.graphics.Color
 import android.graphics.Typeface
+import android.util.Log
+import androidx.core.util.toRange
 import androidx.fragment.app.Fragment
 import com.finotto.finottofedericogps.database.*
 import com.github.mikephil.charting.charts.LineChart
@@ -54,11 +56,16 @@ class GraphFragment : Fragment() {
         valoriLongitudine.clear()
         valoriLatitudine.clear()
 
-
-        for((index, location) in listaValori.reversed().withIndex()){
-            valoriAltitudine.add(Entry(index.toFloat() + 1, location.altitudine.toFloat()))
-            valoriLatitudine.add(Entry(index.toFloat() + 1, location.latitudine.toFloat()))
-            valoriLongitudine.add(Entry(index.toFloat() + 1, location.longitudine.toFloat()))
+        val questoIstante = Date()
+        var c = 0f
+        listaValori.reversed().forEach {
+            val distanza = questoIstante.getTime() - it.timestamp.getTime()
+            if (distanza <= (5 * 60 * 1000)) {
+                valoriAltitudine.add(Entry(c, it.altitudine.toFloat()))
+                valoriLatitudine.add(Entry(c, it.latitudine.toFloat()))
+                valoriLongitudine.add(Entry(c, it.longitudine.toFloat()))
+                c += 1f
+            }
         }
 
         aggiornaGrafico(grafico_Lat, valoriLatitudine, getString(R.string.text_Latitude), Color.RED)
@@ -114,8 +121,8 @@ class GraphFragment : Fragment() {
             minWidth = 55.toFloat()
 
             if(coord=="latitudine" || coord=="longitudine"){
-                axisMaximum = db.massimo(coord).toFloat()+0.00001f
-                axisMinimum = db.minimo(coord).toFloat()-0.00001f
+                axisMaximum = db.massimo(coord).toFloat()+0.000001f
+                axisMinimum = db.minimo(coord).toFloat()-0.000001f
             }
         }
 
