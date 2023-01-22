@@ -39,9 +39,9 @@ class GraphFragment : Fragment() {
         grafico_Long = inflatedView.findViewById(R.id.graficoLongitudine)
         grafico_Alt = inflatedView.findViewById(R.id.graficoAltitudine)
 
-        inizializzaGrafico(grafico_Alt)
-        inizializzaGrafico(grafico_Long)
-        inizializzaGrafico(grafico_Lat)
+        inizializzaGrafico(grafico_Alt,"altitudine")
+        inizializzaGrafico(grafico_Long,"longitudine")
+        inizializzaGrafico(grafico_Lat,"latitudine")
 
         return inflatedView
     }
@@ -94,18 +94,43 @@ class GraphFragment : Fragment() {
         chart.fitScreen()
     }
 
-    private fun inizializzaGrafico(chart : LineChart){
-        chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        chart.xAxis.typeface = Typeface.DEFAULT_BOLD
-        chart.xAxis.textColor = Color.WHITE
-        chart.xAxis.granularity = 1f
-        chart.xAxis.isGranularityEnabled = true
-        chart.axisLeft.textColor = Color.WHITE
-        chart.axisRight.isEnabled = false
-        chart.axisLeft.minWidth = 55.toFloat()
-        chart.legend.textColor = Color.WHITE
-        chart.legend.textSize = 20f
+    private fun inizializzaGrafico(chart : LineChart, coord: String){
+        chart.xAxis.apply{
+            position = XAxis.XAxisPosition.BOTTOM
+            typeface = Typeface.DEFAULT_BOLD
+            textColor = Color.WHITE
+            granularity = 1f
+            isGranularityEnabled = true
+        }
+
+        chart.axisRight.apply{
+            maxWidth = 0.toFloat()
+            isEnabled = false
+        }
+
+        chart.axisLeft.apply{
+            textColor = Color.WHITE
+            isEnabled = true
+            minWidth = 55.toFloat()
+
+            if(coord=="latitudine" || coord=="longitudine"){
+                axisMaximum = db.massimo(coord).toFloat()+0.00001f
+                axisMinimum = db.minimo(coord).toFloat()-0.00001f
+            }
+        }
+
+        chart.legend.apply{
+            textColor = Color.WHITE
+            textSize = 20f
+        }
+
         chart.setNoDataText("Nessun Dato")
+
+
+
+
+
+
     }
 
 }

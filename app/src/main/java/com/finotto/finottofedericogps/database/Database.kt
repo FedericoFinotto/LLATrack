@@ -2,20 +2,13 @@ package com.finotto.finottofedericogps.database
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import java.util.*
 
-/**
- * [Repository] svolge il ruolo di accentratore per i dati comuni dell'applicazione.
- * Esiste una sola istanza di questa classe che viene creata all'avvio dell'app.
- * L'istanza è accessibile attraverso [MyApplication].
- *
- * [ReaderService] raccoglie i dati dai sensori e li pubblica nel repository.
- *
- * Il repository gestisce anche il salvataggio dei dati permanenti attraverso le [SharedPreferences].
- */
 class Database(private val context: Context) {
     companion object {
         const val NUM_MAX_DATI = 150
+        const val LOG_TAG = "Database"
     }
 
     //Lista che contiene l'effettivo database dei dati
@@ -33,7 +26,30 @@ class Database(private val context: Context) {
         }
     }
 
+    fun ListaCoordinata( tipo: String ): MutableList<Double>{
+        val lista =  mutableListOf<Double>()
+        pListaValori.forEach {
+            if(tipo=="latitudine") lista.add(0, it.latitudine)
+            if(tipo=="longitudine") lista.add(0, it.longitudine)
+            if(tipo=="altitudine") lista.add(0, it.altitudine)
+        }
+        return lista
+    }
+
+    fun massimo(tipo: String): Double{
+        val lista = ListaCoordinata(tipo)
+        lista.sortDescending()
+        return lista[0]
+    }
+
+    fun minimo(tipo: String): Double{
+        val lista = ListaCoordinata(tipo)
+        lista.sort()
+        return lista[0]
+    }
+
     fun aggiungiAlDatabase(sample: PositionSample) {
+
         // Se lo storico ha raggiunto la dimensione massima rimuovo i campioni più vecchi in eccesso.
         while (pListaValori.size >= NUM_MAX_DATI) pListaValori.removeLast()
         pListaValori.add(0, sample)
