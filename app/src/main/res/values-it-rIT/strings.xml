@@ -9,4 +9,7 @@
     <string name="notifica_titolo">Tracciamento in Background</string>
     <string name="notifica_descrizione">L\'app sta registrando Latitudine, Longitudine e Altitudine</string>
     <string name="CanaleNotifica_descrizione">Notifica l\'esecuzione in Background</string>
+    <string name="icon_latitude">icona_Latitudine</string>
+    <string name="icon_longitude">icona_Longitudine</string>
+    <string name="icon_altitude">icona_Altitudine</string>
 </resources>
