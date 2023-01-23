@@ -127,7 +127,7 @@ class GraphFragment : Fragment() {
             minWidth = 55.toFloat()
 
             val range = 0.0001f
-            if(coord=="latitudine" || coord=="longitudine"){
+            if(!db.listSample.isEmpty() && (coord=="latitudine" || coord=="longitudine") ){
                 axisMaximum = db.massimo(coord).toFloat()+range
                 axisMinimum = db.minimo(coord).toFloat()-range
             }
