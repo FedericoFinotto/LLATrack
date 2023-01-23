@@ -53,6 +53,7 @@ class GraphFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val listaValori = db.listSample
+
         valoriAltitudine.clear()
         valoriLongitudine.clear()
         valoriLatitudine.clear()
