@@ -22,13 +22,11 @@ import com.github.mikephil.charting.data.LineDataSet
 
 class GraphFragment : Fragment() {
 
-    private val tempoReale = true
     private lateinit var inflatedView : View
     private lateinit var grafico_Lat : LineChart
     private lateinit var grafico_Long : LineChart
     private lateinit var grafico_Alt : LineChart
     private lateinit var db: Database
-    private lateinit var handler: Handler
     private val valoriLatitudine = arrayListOf<Entry>()
     private val valoriLongitudine = arrayListOf<Entry>()
     private val valoriAltitudine = arrayListOf<Entry>()
@@ -69,20 +67,13 @@ class GraphFragment : Fragment() {
                 valoriLongitudine.add(Entry(minuti, it.longitudine.toFloat()))
             }
         }
-        aggiornaGrafici.aggiorna()
+        aggiornaGrafici()
     }
 
-    private val aggiornaGrafici = object : Runnable{
-        override fun run(){
-            aggiorna()
-            handler.postDelayed(this, "10".toLong())
-        }
-
-        fun aggiorna(){
+    private fun aggiornaGrafici(){
             aggiornaGrafico(grafico_Lat, valoriLatitudine, getString(R.string.text_Latitude), Color.RED)
             aggiornaGrafico(grafico_Long, valoriLongitudine, getString(R.string.text_Longitude), Color.GREEN)
             aggiornaGrafico(grafico_Alt, valoriAltitudine, getString(R.string.text_Altitude), Color.BLUE)
-        }
     }
 
     private fun definisciLineeDataSet(listaValori : ArrayList<Entry>, titolo : String, colore : Int) : LineDataSet{
@@ -118,8 +109,8 @@ class GraphFragment : Fragment() {
             position = XAxis.XAxisPosition.BOTTOM
             typeface = Typeface.DEFAULT_BOLD
             textColor = Color.WHITE
-            granularity = 1f
-            isGranularityEnabled = true
+            //granularity = 1f
+            //isGranularityEnabled = true
             axisMaximum = 0f
             //axisMinimum = -5f
         }
