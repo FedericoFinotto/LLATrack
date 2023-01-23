@@ -29,7 +29,6 @@ class GraphFragment : Fragment() {
     private lateinit var grafico_Alt : LineChart
     private lateinit var db: Database
     private lateinit var handler: Handler
-
     private val valoriLatitudine = arrayListOf<Entry>()
     private val valoriLongitudine = arrayListOf<Entry>()
     private val valoriAltitudine = arrayListOf<Entry>()
@@ -122,7 +121,7 @@ class GraphFragment : Fragment() {
             granularity = 1f
             isGranularityEnabled = true
             axisMaximum = 0f
-            axisMinimum = -5f
+            //axisMinimum = -5f
         }
 
         chart.axisRight.apply{
