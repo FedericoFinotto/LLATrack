@@ -90,7 +90,7 @@ class ServiceGPS : Service(){
                 } // Metto il servizio in esecuzione normale (non foreground).
                 STATO_BACKGROUND -> {
                     //Configuro un Intent necessario per Permettere la riapertura dell'app premendo la Notifica
-                    val intentApriApp = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intent.action = Intent.ACTION_MAIN
                     intent.addCategory(Intent.CATEGORY_LAUNCHER)
@@ -98,7 +98,7 @@ class ServiceGPS : Service(){
                     val pendingIntent = PendingIntent.getActivity(
                         this,
                         0,
-                        intentApriApp,
+                        intent,
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
 

@@ -8,6 +8,8 @@ import com.finotto.finottofedericogps.R
 import java.util.*
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.core.util.toRange
 import androidx.fragment.app.Fragment
@@ -20,11 +22,13 @@ import com.github.mikephil.charting.data.LineDataSet
 
 class GraphFragment : Fragment() {
 
+    private val tempoReale = true
     private lateinit var inflatedView : View
     private lateinit var grafico_Lat : LineChart
     private lateinit var grafico_Long : LineChart
     private lateinit var grafico_Alt : LineChart
     private lateinit var db: Database
+    private lateinit var handler: Handler
 
     private val valoriLatitudine = arrayListOf<Entry>()
     private val valoriLongitudine = arrayListOf<Entry>()
@@ -57,20 +61,30 @@ class GraphFragment : Fragment() {
         valoriLatitudine.clear()
 
         val questoIstante = Date()
-        var c = 0f
         listaValori.reversed().forEach {
             val distanza = questoIstante.getTime() - it.timestamp.getTime()
             if (distanza <= (5 * 60 * 1000)) {
-                valoriAltitudine.add(Entry(c, it.altitudine.toFloat()))
-                valoriLatitudine.add(Entry(c, it.latitudine.toFloat()))
-                valoriLongitudine.add(Entry(c, it.longitudine.toFloat()))
-                c += 1f
+                val minuti = -distanza.toFloat()/60/1000
+                valoriAltitudine.add(Entry(minuti, it.altitudine.toFloat()))
+                valoriLatitudine.add(Entry(minuti, it.latitudine.toFloat()))
+                valoriLongitudine.add(Entry(minuti, it.longitudine.toFloat()))
             }
         }
 
-        aggiornaGrafico(grafico_Lat, valoriLatitudine, getString(R.string.text_Latitude), Color.RED)
-        aggiornaGrafico(grafico_Long, valoriLongitudine, getString(R.string.text_Longitude), Color.GREEN)
-        aggiornaGrafico(grafico_Alt, valoriAltitudine, getString(R.string.text_Altitude), Color.BLUE)
+        aggiornaGrafici.aggiorna()
+    }
+
+    private val aggiornaGrafici = object : Runnable{
+        override fun run(){
+            aggiorna()
+            handler.postDelayed(this, "10".toLong())
+        }
+
+        fun aggiorna(){
+            aggiornaGrafico(grafico_Lat, valoriLatitudine, getString(R.string.text_Latitude), Color.RED)
+            aggiornaGrafico(grafico_Long, valoriLongitudine, getString(R.string.text_Longitude), Color.GREEN)
+            aggiornaGrafico(grafico_Alt, valoriAltitudine, getString(R.string.text_Altitude), Color.BLUE)
+        }
     }
 
     private fun definisciLineeDataSet(listaValori : ArrayList<Entry>, titolo : String, colore : Int) : LineDataSet{
@@ -108,6 +122,8 @@ class GraphFragment : Fragment() {
             textColor = Color.WHITE
             granularity = 1f
             isGranularityEnabled = true
+            axisMaximum = 0f
+            axisMinimum = -5f
         }
 
         chart.axisRight.apply{
@@ -133,12 +149,6 @@ class GraphFragment : Fragment() {
         }
 
         chart.setNoDataText("Nessun Dato")
-
-
-
-
-
-
     }
 
 }

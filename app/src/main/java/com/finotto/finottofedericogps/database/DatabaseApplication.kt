@@ -11,10 +11,6 @@ class DatabaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-        // Alla creazione del processo creo un'istanza del repository che sarà condiviso da tutte
-        // le componenti dell'app (Service e Activity).
-        // Simile al pattern Singleton.
         pDatabase = Database(this)
     }
 }
