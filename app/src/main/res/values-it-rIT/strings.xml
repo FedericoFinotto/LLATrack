@@ -12,4 +12,7 @@
     <string name="icon_latitude">icona_Latitudine</string>
     <string name="icon_longitude">icona_Longitudine</string>
     <string name="icon_altitude">icona_Altitudine</string>
+    <string name="imagelatitude">immagine Latitudine</string>
+    <string name="imagelongitude">immagine Longitudine</string>
+    <string name="imagealtitude">immagine Altitudine</string>
 </resources>

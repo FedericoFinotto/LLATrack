@@ -109,10 +109,10 @@ class GraphFragment : Fragment() {
             position = XAxis.XAxisPosition.BOTTOM
             typeface = Typeface.DEFAULT_BOLD
             textColor = Color.WHITE
-            //granularity = 1f
-            //isGranularityEnabled = true
+            granularity = 1f
+            isGranularityEnabled = true
             axisMaximum = 0f
-            //axisMinimum = -5f
+            axisMinimum = -5.0f
         }
 
         chart.axisRight.apply{

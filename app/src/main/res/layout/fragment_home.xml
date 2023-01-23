@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/containerLongitude"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -21,10 +21,11 @@
             style="@style/stileBase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_Latitude"
             tools:text="@string/text_noData" />
 
         <TextView
@@ -32,10 +33,24 @@
             style="@style/stileBase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/value_Latitude"
+            app:layout_constraintBottom_toTopOf="@+id/value_Latitude"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageLatitude"
             tools:text="@string/text_Latitude" />
+
+        <ImageView
+            android:id="@+id/imageLatitude"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/imagelatitude"
+            android:src="@drawable/ic_latitude"
+            app:layout_constraintBottom_toTopOf="@+id/text_Latitude"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -55,11 +70,11 @@
             style="@style/stileBase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_Longitude"
             tools:text="@string/text_noData" />
 
         <TextView
@@ -67,10 +82,24 @@
             style="@style/stileBase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/value_Longitude"
+            app:layout_constraintBottom_toTopOf="@+id/value_Longitude"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageLongitude"
             tools:text="@string/text_Longitude" />
+
+        <ImageView
+            android:id="@+id/imageLongitude"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/imagelongitude"
+            android:src="@drawable/ic_longitude"
+            app:layout_constraintBottom_toTopOf="@+id/text_Longitude"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -89,11 +118,12 @@
             style="@style/stileBase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_Altitude"
+            app:layout_constraintVertical_bias="0.485"
             tools:text="@string/text_noData" />
 
         <TextView
@@ -101,9 +131,23 @@
             style="@style/stileBase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/value_Altitude"
+            app:layout_constraintBottom_toTopOf="@+id/value_Altitude"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageAltitude"
             tools:text="@string/text_Altitude" />
+
+        <ImageView
+            android:id="@+id/imageAltitude"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/imagealtitude"
+            android:src="@drawable/ic_altitude"
+            app:layout_constraintBottom_toTopOf="@+id/text_Altitude"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

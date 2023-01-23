@@ -14,4 +14,7 @@
     <string name="icon_longitude">icon_Longitude</string>
     <string name="icon_altitude">icon_Altitude</string>
     <string name="numericFormat" translatable="false">%.7f</string>
+    <string name="imagelatitude">image Latitude</string>
+    <string name="imagelongitude">image Longitude</string>
+    <string name="imagealtitude">image Altitude</string>
 </resources>

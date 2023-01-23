@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/feder/Desktop/Progetti/FedericoFinotto1136211_LLATrack/FinottoFedericoGPS/app/src/main/res/layout/fragment_home.xml" value="0.10815602836879433" />
+        <entry key="..\:/Users/feder/Desktop/Progetti/FedericoFinotto1136211_LLATrack/FinottoFedericoGPS/app/src/main/res/drawable/ic_altitude.xml" value="0.1" />
+        <entry key="..\:/Users/feder/Desktop/Progetti/FedericoFinotto1136211_LLATrack/FinottoFedericoGPS/app/src/main/res/drawable/ic_latitude.xml" value="0.1" />
+        <entry key="..\:/Users/feder/Desktop/Progetti/FedericoFinotto1136211_LLATrack/FinottoFedericoGPS/app/src/main/res/drawable/ic_longitude.xml" value="0.1" />
+        <entry key="..\:/Users/feder/Desktop/Progetti/FedericoFinotto1136211_LLATrack/FinottoFedericoGPS/app/src/main/res/layout-land/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Users/feder/Desktop/Progetti/FedericoFinotto1136211_LLATrack/FinottoFedericoGPS/app/src/main/res/layout/fragment_home.xml" value="0.33" />
       </map>
     </option>
   </component>
