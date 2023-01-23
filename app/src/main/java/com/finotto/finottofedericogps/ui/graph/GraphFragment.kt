@@ -21,7 +21,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 
 class GraphFragment : Fragment() {
-
+    //prova commit
     private lateinit var inflatedView : View
     private lateinit var grafico_Lat : LineChart
     private lateinit var grafico_Long : LineChart
