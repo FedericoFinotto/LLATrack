@@ -30,6 +30,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var db: Database
     private lateinit var viewModel:MainActivityViewModel
 
+    private val permessi = object : Runnable{
+        var COARSE: Boolean = false
+        var FINE: Boolean = false
+        var BACKGROUND: Boolean = false
+        override fun run(){
+            return
+        }
+        fun tuttoPermesso(): Boolean{
+            return COARSE && FINE && BACKGROUND
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.setupWithNavController(navController)
         }
 
-        checkForPermission(this)
+        richiediPermessi(this)
         createNotificationChannel()
     }
 
@@ -67,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             val channel = NotificationChannel(
                 ID_NOTIF_CH_MAIN,
                 getString(R.string.CanaleNotifica_nome),
-                NotificationManager.IMPORTANCE_LOW)
+                NotificationManager.IMPORTANCE_HIGH)
             channel.description = getString(R.string.CanaleNotifica_descrizione)
 
             // Un canale può essere registrato più volte senza errori.
@@ -77,16 +89,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkForPermission(context: Context) {
-        if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+    private fun richiediPermessi(context: Context) {
+        if (context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) permessi.COARSE=true
+        else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), ID_PERM_REQUEST)
+            return
+        }
+
+        if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) permessi.COARSE=true
+        else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), ID_PERM_REQUEST)
+            return
+        }
+
+        if (context.checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) permessi.COARSE=true
+        else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION), ID_PERM_REQUEST)
+            return
+        }
     }
 
     override fun onRequestPermissionsResult( requestCode: Int, permissions: Array<out String>, grantResults: IntArray ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == ID_PERM_REQUEST) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                avviaServizio()
+                if(permessi.tuttoPermesso()) avviaServizio()
+                else richiediPermessi(this)
             } else {
                 Toast.makeText(this, "Permesso Negato", Toast.LENGTH_SHORT).show()
             }

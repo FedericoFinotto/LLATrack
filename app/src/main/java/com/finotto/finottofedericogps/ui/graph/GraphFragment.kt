@@ -70,7 +70,6 @@ class GraphFragment : Fragment() {
                 valoriLongitudine.add(Entry(minuti, it.longitudine.toFloat()))
             }
         }
-
         aggiornaGrafici.aggiorna()
     }
 
